@@ -1,0 +1,334 @@
+/* ═══════════════════════════════════════════════════════════════════
+   MINA — Red Team C2 Center Global Styles
+   Design System: Cyber-Tactical, Command & Control (C2)
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Color palette */
+  --bg-1: #0A0B0E;            /* Deep black — overall bg */
+  --bg-2: #161B22;            /* Dark grey — panel bg */
+  --bg-3: #21262D;            /* Lighter dark — component bg */
+  --border: #30363D;          /* Subtle borders */
+  --accent: #E53935;          /* Crimson red — primary accent */
+  --accent-dark: #8B0000;     /* Dark red — root node */
+  --accent-glow: rgba(229,57,53,0.4); /* Red glow */
+  --success: #00FF41;         /* Terminal green */
+  --warning: #FFB300;         /* Amber warning */
+  --danger: #FF3333;          /* Alert red */
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted: #484F58;
+
+  /* Typography */
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'Roboto Mono', monospace;
+  --font-ui: 'Inter', 'Roboto', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg-1);
+  color: var(--text-primary);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ── Animations ─────────────────────────────────────────────────── */
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--accent); }
+  50%       { opacity: 0.3; box-shadow: none; }
+}
+
+@keyframes glitch {
+  0%   { clip-path: inset(0 0 90% 0); transform: translateX(-3px); }
+  20%  { clip-path: inset(30% 0 40% 0); transform: translateX(3px); }
+  40%  { clip-path: inset(60% 0 15% 0); transform: translateX(-2px); }
+  60%  { clip-path: inset(80% 0 5% 0);  transform: translateX(2px); }
+  80%  { clip-path: inset(10% 0 70% 0); transform: translateX(-3px); }
+  100% { clip-path: inset(0 0 0 0);     transform: translateX(0); }
+}
+
+@keyframes scan-line {
+  0%   { top: -5%; }
+  100% { top: 105%; }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes ripple {
+  0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
+  70%  { box-shadow: 0 0 0 14px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes typewriter-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Layout ─────────────────────────────────────────────────────── */
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-1);
+  overflow: hidden;
+}
+
+.top-bar {
+  height: 38px;
+  background: var(--bg-2);
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 2px 12px rgba(229,57,53,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.top-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(229,57,53,0.05), transparent);
+  animation: scan-line-h 8s linear infinite;
+}
+
+@keyframes scan-line-h {
+  0%   { left: -60%; }
+  100% { left: 160%; }
+}
+
+.top-bar .sys-info { display: flex; gap: 18px; align-items: center; }
+.top-bar .sys-time { color: var(--success); font-size: 13px; font-weight: 600; }
+
+.panels-row {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 0;
+}
+
+.panel-divider {
+  width: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Panel base ─────────────────────────────────────────────────── */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-2);
+  overflow: hidden;
+  position: relative;
+}
+
+.panel-left  { width: 27%; min-width: 260px; }
+.panel-mid   { flex: 1; }
+.panel-right { width: 32%; min-width: 300px; }
+
+.panel-header {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, rgba(229,57,53,0.04), transparent);
+}
+
+.panel-header .accent { color: var(--accent); }
+
+/* ── Shared form components ──────────────────────────────────────── */
+
+.mono-input {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 8px 10px;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.mono-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-glow);
+}
+
+.mono-input::placeholder { color: var(--text-muted); }
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  padding: 7px 16px;
+  border: 1px solid;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.15s;
+  text-transform: uppercase;
+  border-radius: 0;
+}
+
+.btn-danger {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 18px var(--accent-glow), 0 0 4px var(--accent);
+  animation: glitch 0.3s linear;
+}
+
+.btn-danger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  border-color: var(--border);
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--bg-3);
+  border-color: var(--text-secondary);
+}
+
+.btn-outline:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Section label ───────────────────────────────────────────────── */
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  border-left: 2px solid var(--accent);
+  padding-left: 7px;
+}
+
+/* ── Toggle switch ───────────────────────────────────────────────── */
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.toggle-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.toggle {
+  position: relative;
+  width: 36px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 2px;
+  top: 2px;
+  background: var(--text-secondary);
+  border-radius: 1px;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.toggle input:checked + .toggle-slider { background: rgba(0,255,65,0.2); }
+.toggle input:checked + .toggle-slider::before {
+  transform: translateX(18px);
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
+}
+
+/* ── Slider ──────────────────────────────────────────────────────── */
+
+.styled-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 0;
+  outline: none;
+}
+
+.styled-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--warning);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 6px var(--warning);
+}
+
+/* ── Risk badge ──────────────────────────────────────────────────── */
+
+.risk-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.risk-critical { background: rgba(229,57,53,0.2); color: #FF3333; border: 1px solid #FF3333; }
+.risk-high     { background: rgba(255,87,34,0.2); color: #FF5722; border: 1px solid #FF5722; }
+.risk-medium   { background: rgba(255,179,0,0.2); color: var(--warning); border: 1px solid var(--warning); }
+.risk-low      { background: rgba(0,255,65,0.1);  color: var(--success); border: 1px solid rgba(0,255,65,0.3); }
